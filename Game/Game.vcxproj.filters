@@ -19,10 +19,16 @@
     <Filter Include="ヘッダー ファイル\System">
       <UniqueIdentifier>{3d4add0e-4acb-4e1a-8103-43a4dca37ecc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{95d63b22-82c1-4362-b005-b4c088284448}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\System\time.cpp">
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
