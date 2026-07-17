@@ -1,4 +1,5 @@
 #include <windows.h>
+#include "System/time.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -19,30 +20,41 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = hInstance;
     wc.lpszClassName = CLASS_NAME;
-
     RegisterClass(&wc);
 
     HWND hwnd = CreateWindowEx(
-        0,
-        CLASS_NAME,
-        L"Gravity Action 2D",
-        WS_OVERLAPPEDWINDOW,
+        0, CLASS_NAME, L"Gravity Action 2D", WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720,
-        nullptr,
-        nullptr,
-        hInstance,
-        nullptr
+        nullptr, nullptr, hInstance, nullptr
     );
 
     if (hwnd == nullptr) return 0;
-
     ShowWindow(hwnd, nCmdShow);
 
+    Time::Initialize();
+
     MSG msg = {};
-    while (GetMessage(&msg, nullptr, 0, 0))
+    bool running = true;
+    while (running)
     {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
+        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_QUIT)
+            {
+                running = false;
+                break;
+            }
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+
+        if (!running) break;
+
+        Time::Update();
+
+        // Update();
+        // Render();
+        // —á: float dt = Time::DeltaTime();
     }
 
     return 0;

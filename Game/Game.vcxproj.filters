@@ -16,6 +16,9 @@
     <Filter Include="ヘッダー ファイル\Math">
       <UniqueIdentifier>{137797d0-e94a-45dc-b457-1b7fbb0de8dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{3d4add0e-4acb-4e1a-8103-43a4dca37ecc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="header\Math\mathf.h">
       <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="header\System\time.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
