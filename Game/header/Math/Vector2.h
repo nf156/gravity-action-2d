@@ -2,6 +2,8 @@
 
 #include <cmath>      // sqrtf相当（std::sqrt）を使うため
 #include <algorithm>  // std::clamp を使うため
+#include "mathf.h"
+
 
 // 2Dベクトル（位置・速度・方向などに使う）
 struct Vector2
@@ -119,8 +121,7 @@ struct Vector2
     static Vector2 Lerp(const Vector2& a, const Vector2& b, float t)
     {
         // tを0～1に制限（暴走防止）
-        if (t < 0.0f) t = 0.0f;
-        if (t > 1.0f) t = 1.0f;
+		Mathf::Clamp01(t);
         return a + (b - a) * t;
     }
 

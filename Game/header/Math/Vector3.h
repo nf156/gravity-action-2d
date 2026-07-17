@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <algorithm>
+#include "mathf.h"
 
 // 3Dベクトル（将来のカメラ・3D拡張・行列計算の基礎）
 struct Vector3
@@ -107,8 +108,7 @@ struct Vector3
 	// 線形補間（0.0～1.0の範囲で補間）
     static Vector3 Lerp(const Vector3& a, const Vector3& b, float t)
     {
-        if (t < 0.0f) t = 0.0f;
-        if (t > 1.0f) t = 1.0f;
+		Mathf::Clamp01(t);
         return a + (b - a) * t;
     }
 
