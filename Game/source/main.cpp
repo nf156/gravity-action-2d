@@ -41,12 +41,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     DXRenderer renderer;
     if (!renderer.Initialize(hwnd, 1280, 720))
     {
+        MessageBoxA(nullptr, "renderer.Initialize failed", "Error", MB_OK | MB_ICONERROR);
         return 0;
     }
 
     // 追加: オブジェクト基盤
     ObjectManager objectManager;
     objectManager.Add(std::make_shared<TestObject>());
+
+    float timeSec = 0.0f;
 
     MSG msg = {};
     bool running = true;
@@ -67,11 +70,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 
         Time::Update();
         float dt = Time::DeltaTime(); // あなたのTime実装名に合わせて必要なら修正
+		timeSec += dt;
 
         objectManager.UpdateAll(dt);
 
 		renderer.BeginFrame(0.1f, 0.2f, 0.35f, 1.0f);
-		renderer.DrawTriangle();
+		renderer.DrawTriangle(timeSec);
         objectManager.DrawAll();
 		renderer.EndFrame();
 

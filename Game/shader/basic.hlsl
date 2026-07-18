@@ -1,3 +1,9 @@
+cbuffer CB0 : register(b0)
+{
+    float2 offset; // x,y移動
+    float2 pad; // 16byteアライン用
+};
+
 struct VS_IN
 {
     float3 pos : POSITION;
@@ -13,7 +19,9 @@ struct VS_OUT
 VS_OUT VSMain(VS_IN v)
 {
     VS_OUT o;
-    o.pos = float4(v.pos, 1.0f);
+    float3 p = v.pos;
+    p.xy += offset; // CPUから渡したオフセットで移動
+    o.pos = float4(p, 1.0f);
     o.col = v.col;
     return o;
 }

@@ -1,5 +1,5 @@
 #include "Engine/dxRenderer.h"
-#include <string>
+#include <cmath>
 
 struct VertexPC
 {
@@ -53,8 +53,6 @@ bool DXRenderer::Initialize(HWND hwnd, int width, int height)
     vp.Height = static_cast<float>(height);
     vp.MinDepth = 0.0f;
     vp.MaxDepth = 1.0f;
-    vp.TopLeftX = 0.0f;
-    vp.TopLeftY = 0.0f;
     m_context->RSSetViewports(1, &vp);
 
     return CreateTriangleResources();
@@ -62,7 +60,7 @@ bool DXRenderer::Initialize(HWND hwnd, int width, int height)
 
 bool DXRenderer::CreateTriangleResources()
 {
-    // 1) 頂点バッファ
+    // 頂点バッファ
     VertexPC verts[3] =
     {
         {  0.0f,  0.5f, 0.0f, 1,0,0,1 },
@@ -81,9 +79,8 @@ bool DXRenderer::CreateTriangleResources()
     HRESULT hr = m_device->CreateBuffer(&bd, &init, m_vb.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    // 2) ファイルからシェーダコンパイル
+    // HLSL from file
     Microsoft::WRL::ComPtr<ID3DBlob> vsBlob, psBlob, errBlob;
-
     UINT compileFlags = D3DCOMPILE_ENABLE_STRICTNESS;
 #if defined(_DEBUG)
     compileFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
@@ -93,68 +90,46 @@ bool DXRenderer::CreateTriangleResources()
         L"shader/basic.hlsl",
         nullptr,
         D3D_COMPILE_STANDARD_FILE_INCLUDE,
-        "VSMain",
-        "vs_5_0",
-        compileFlags,
-        0,
-        vsBlob.GetAddressOf(),
-        errBlob.GetAddressOf()
-    );
-    if (FAILED(hr))
-    {
-        if (errBlob) OutputDebugStringA((char*)errBlob->GetBufferPointer());
-        return false;
-    }
+        "VSMain", "vs_5_0",
+        compileFlags, 0,
+        vsBlob.GetAddressOf(), errBlob.GetAddressOf());
+    if (FAILED(hr)) { if (errBlob) OutputDebugStringA((char*)errBlob->GetBufferPointer()); return false; }
 
     errBlob.Reset();
     hr = D3DCompileFromFile(
         L"shader/basic.hlsl",
         nullptr,
         D3D_COMPILE_STANDARD_FILE_INCLUDE,
-        "PSMain",
-        "ps_5_0",
-        compileFlags,
-        0,
-        psBlob.GetAddressOf(),
-        errBlob.GetAddressOf()
-    );
-    if (FAILED(hr))
-    {
-        if (errBlob) OutputDebugStringA((char*)errBlob->GetBufferPointer());
-        return false;
-    }
+        "PSMain", "ps_5_0",
+        compileFlags, 0,
+        psBlob.GetAddressOf(), errBlob.GetAddressOf());
+    if (FAILED(hr)) { if (errBlob) OutputDebugStringA((char*)errBlob->GetBufferPointer()); return false; }
 
-    // 3) VS/PS作成
-    hr = m_device->CreateVertexShader(
-        vsBlob->GetBufferPointer(),
-        vsBlob->GetBufferSize(),
-        nullptr,
-        m_vs.GetAddressOf()
-    );
+    hr = m_device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, m_vs.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    hr = m_device->CreatePixelShader(
-        psBlob->GetBufferPointer(),
-        psBlob->GetBufferSize(),
-        nullptr,
-        m_ps.GetAddressOf()
-    );
+    hr = m_device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), nullptr, m_ps.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    // 4) InputLayout
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,                 D3D11_INPUT_PER_VERTEX_DATA, 0 },
         { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, sizeof(float) * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
     };
 
-    hr = m_device->CreateInputLayout(
-        layout,
-        _countof(layout),
-        vsBlob->GetBufferPointer(),
-        vsBlob->GetBufferSize(),
-        m_inputLayout.GetAddressOf()
-    );
+    hr = m_device->CreateInputLayout(layout, _countof(layout),
+        vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(),
+        m_inputLayout.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    // 定数バッファ作成（16byte）
+    D3D11_BUFFER_DESC cbd = {};
+    cbd.Usage = D3D11_USAGE_DYNAMIC;
+    cbd.ByteWidth = sizeof(CB0);
+    cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    hr = m_device->CreateBuffer(&cbd, nullptr, m_cb0.GetAddressOf());
     if (FAILED(hr)) return false;
 
     return true;
@@ -166,8 +141,21 @@ void DXRenderer::BeginFrame(float r, float g, float b, float a)
     m_context->ClearRenderTargetView(m_rtv.Get(), clearColor);
 }
 
-void DXRenderer::DrawTriangle()
+void DXRenderer::DrawTriangle(float timeSec)
 {
+    // 定数バッファ更新
+    D3D11_MAPPED_SUBRESOURCE mapped = {};
+    if (SUCCEEDED(m_context->Map(m_cb0.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+    {
+        CB0* cb = reinterpret_cast<CB0*>(mapped.pData);
+        cb->offset[0] = std::sinf(timeSec) * 0.5f; // 左右移動
+        cb->offset[1] = 0.0f;
+        cb->pad[0] = cb->pad[1] = 0.0f;
+        m_context->Unmap(m_cb0.Get(), 0);
+    }
+
+    m_context->VSSetConstantBuffers(0, 1, m_cb0.GetAddressOf());
+
     UINT stride = sizeof(VertexPC);
     UINT offset = 0;
     m_context->IASetVertexBuffers(0, 1, m_vb.GetAddressOf(), &stride, &offset);
@@ -187,6 +175,7 @@ void DXRenderer::EndFrame()
 
 void DXRenderer::Finalize()
 {
+    m_cb0.Reset();
     m_inputLayout.Reset();
     m_ps.Reset();
     m_vs.Reset();
