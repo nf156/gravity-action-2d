@@ -1,66 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Math">
-      <UniqueIdentifier>{137797d0-e94a-45dc-b457-1b7fbb0de8dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\System">
-      <UniqueIdentifier>{583ccdab-5fab-4903-ad27-0e2e3dff65d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\System">
-      <UniqueIdentifier>{a3db9d34-08df-4a7d-a641-70e3f2751d70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Math">
-      <UniqueIdentifier>{137797d0-e94a-45dc-b457-1b7fbb0de8dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\System">
-      <UniqueIdentifier>{48b6c3aa-c690-4d19-9e31-eb3ef34c9b9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\System">
-      <UniqueIdentifier>{69987b45-b238-47fb-a812-25515604c2aa}</UniqueIdentifier>
-    <Filter Include="ヘッダー ファイル\System">
-      <UniqueIdentifier>{3d4add0e-4acb-4e1a-8103-43a4dca37ecc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\System">
-      <UniqueIdentifier>{95d63b22-82c1-4362-b005-b4c088284448}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="source\main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\System\debugLog.cpp">
-    <ClCompile Include="source\System\input.cpp">
+      <Filter>source\System</Filter>
+    </ClCompile>
     <ClCompile Include="source\System\time.cpp">
-      <Filter>ソース ファイル\System</Filter>
+      <Filter>source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="source\System\input.cpp">
+      <Filter>source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="source\main.cpp">
+      <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\Math\vector2.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
+    <ClInclude Include="header\System\debugLog.h">
+      <Filter>header\System</Filter>
     </ClInclude>
-    <ClInclude Include="header\Math\vector3.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
+    <ClInclude Include="header\System\input.h">
+      <Filter>header\System</Filter>
+    </ClInclude>
+    <ClInclude Include="header\System\time.h">
+      <Filter>header\System</Filter>
     </ClInclude>
     <ClInclude Include="header\Math\mathf.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
+      <Filter>header\Math</Filter>
     </ClInclude>
-    <ClInclude Include="header\System\debugLog.h">
-    <ClInclude Include="header\System\input.h">
-    <ClInclude Include="header\System\time.h">
-      <Filter>ヘッダー ファイル\System</Filter>
+    <ClInclude Include="header\Math\vector2.h">
+      <Filter>header\Math</Filter>
     </ClInclude>
+    <ClInclude Include="header\Math\vector3.h">
+      <Filter>header\Math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{6864b48c-4e86-42bd-b1bb-a65e2398fc34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{feb767b8-92ac-49d7-97bd-1daab25eb5c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\System">
+      <UniqueIdentifier>{c76a5522-ae0f-4f6b-9226-77bbf8515659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Math">
+      <UniqueIdentifier>{26f5bc88-0030-4b53-a1d8-e09286061ebe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Engine">
+      <UniqueIdentifier>{34d87fdd-efe2-4751-8e65-2b9a87c495d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Physics2D">
+      <UniqueIdentifier>{ce1576d8-1813-4da7-8de1-643307cd0214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Gameplay">
+      <UniqueIdentifier>{33203271-bccd-41b5-84d8-190be317052c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\Math">
+      <UniqueIdentifier>{b3a4c7a6-273b-4d32-bbcb-65862a74358b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\Engine">
+      <UniqueIdentifier>{2a972462-ff79-4a0c-91fe-7bcd651d9945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\Gameplay">
+      <UniqueIdentifier>{02668817-907c-4a1d-9b27-83cf510a31e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\Physics2D">
+      <UniqueIdentifier>{d85b3d09-bb70-41ef-83cc-7df1d436f5f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\System">
+      <UniqueIdentifier>{584ae051-9d1e-4b39-9748-0b8ca174ab0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
