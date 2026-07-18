@@ -140,6 +140,7 @@
     <ClInclude Include="header\Math\mathf.h" />
     <ClInclude Include="header\Math\vector2.h" />
     <ClInclude Include="header\Math\vector3.h" />
+    <ClInclude Include="header\Object\component.h" />
     <ClInclude Include="header\Object\objectManager.h" />
     <ClInclude Include="header\Object\gameObject.h" />
     <ClInclude Include="header\Object\testObject.h" />
