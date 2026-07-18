@@ -25,6 +25,11 @@
     <Filter Include="ヘッダー ファイル\Math">
       <UniqueIdentifier>{137797d0-e94a-45dc-b457-1b7fbb0de8dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{48b6c3aa-c690-4d19-9e31-eb3ef34c9b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{69987b45-b238-47fb-a812-25515604c2aa}</UniqueIdentifier>
     <Filter Include="ヘッダー ファイル\System">
       <UniqueIdentifier>{3d4add0e-4acb-4e1a-8103-43a4dca37ecc}</UniqueIdentifier>
     </Filter>
@@ -36,6 +41,7 @@
     <ClCompile Include="source\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="source\System\debugLog.cpp">
     <ClCompile Include="source\System\input.cpp">
     <ClCompile Include="source\System\time.cpp">
       <Filter>ソース ファイル\System</Filter>
@@ -51,6 +57,7 @@
     <ClInclude Include="header\Math\mathf.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
+    <ClInclude Include="header\System\debugLog.h">
     <ClInclude Include="header\System\input.h">
     <ClInclude Include="header\System\time.h">
       <Filter>ヘッダー ファイル\System</Filter>
