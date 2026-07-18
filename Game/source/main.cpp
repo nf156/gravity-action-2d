@@ -2,6 +2,7 @@
 #include "System/time.h"
 #include "Object/objectManager.h"
 #include "Object/testObject.h"
+#include "Engine/dxRenderer.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -33,7 +34,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     if (hwnd == nullptr) return 0;
     ShowWindow(hwnd, nCmdShow);
 
+	//  Time 初期化
     Time::Initialize();
+
+    // DX 初期化
+    DXRenderer renderer;
+    if (!renderer.Initialize(hwnd, 1280, 720))
+    {
+        return 0;
+    }
 
     // 追加: オブジェクト基盤
     ObjectManager objectManager;
@@ -60,12 +69,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         float dt = Time::DeltaTime(); // あなたのTime実装名に合わせて必要なら修正
 
         objectManager.UpdateAll(dt);
+
+		renderer.BeginFrame(0.1f, 0.2f, 0.35f, 1.0f);
         objectManager.DrawAll();
+		renderer.EndFrame();
+
         objectManager.RemoveInactive();
 
         // Render();
     }
 
     objectManager.Clear();
+	renderer.Finalize();
     return 0;
 }

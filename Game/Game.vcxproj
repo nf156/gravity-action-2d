@@ -108,6 +108,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,9 +125,11 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Engine\dxRenderer.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Object\testObject.cpp" />
     <ClCompile Include="source\System\config.cpp" />
@@ -137,6 +140,7 @@
     <ClCompile Include="source\System\time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\Engine\dxRenderer.h" />
     <ClInclude Include="header\Math\mathf.h" />
     <ClInclude Include="header\Math\vector2.h" />
     <ClInclude Include="header\Math\vector3.h" />

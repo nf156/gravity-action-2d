@@ -25,6 +25,9 @@
     <ClCompile Include="source\Object\testObject.cpp">
       <Filter>source\Object</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\dxRenderer.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\System\debugLog.h">
@@ -68,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="header\Object\component.h">
       <Filter>header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Engine\dxRenderer.h">
+      <Filter>header\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
