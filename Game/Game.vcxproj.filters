@@ -43,13 +43,16 @@
       <Filter>header\Math</Filter>
     </ClInclude>
     <ClInclude Include="header\System\config.h">
-       <Filter>header\System</Filter>
+      <Filter>header\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\fileSystem.h">
-       <Filter>header\System</Filter>
+      <Filter>header\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\assetPath.h">
       <Filter>header\System</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Object\transform2D.h">
+      <Filter>header\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +91,9 @@
     </Filter>
     <Filter Include="header\System">
       <UniqueIdentifier>{584ae051-9d1e-4b39-9748-0b8ca174ab0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\Object">
+      <UniqueIdentifier>{0c6b6233-e55d-451b-a48f-b4c6b7210b7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
