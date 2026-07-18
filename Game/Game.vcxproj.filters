@@ -51,6 +51,9 @@
     <ClInclude Include="header\System\assetPath.h">
       <Filter>header\System</Filter>
     </ClInclude>
+    <ClInclude Include="header\Object\objectManager.h">
+     <Filter>header\Object</Filter>
+    </ClInclude>
     <ClInclude Include="header\Object\gameObject.h">
       <Filter>header\Object</Filter>
     </ClInclude>
