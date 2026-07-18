@@ -51,6 +51,9 @@
     <ClInclude Include="header\System\assetPath.h">
       <Filter>header\System</Filter>
     </ClInclude>
+    <ClInclude Include="header\Object\gameObject.h">
+      <Filter>header\Object</Filter>
+    </ClInclude>
     <ClInclude Include="header\Object\transform2D.h">
       <Filter>header\Object</Filter>
     </ClInclude>
@@ -93,7 +96,7 @@
       <UniqueIdentifier>{584ae051-9d1e-4b39-9748-0b8ca174ab0c}</UniqueIdentifier>
     </Filter>
     <Filter Include="header\Object">
-      <UniqueIdentifier>{0c6b6233-e55d-451b-a48f-b4c6b7210b7e}</UniqueIdentifier>
+      <UniqueIdentifier>{1cf0b493-e243-4203-82dc-9d6ccc63ed7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
