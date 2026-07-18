@@ -22,6 +22,9 @@
     <ClCompile Include="source\System\assetPath.cpp">
       <Filter>source\System</Filter>
     </ClCompile>
+    <ClCompile Include="source\Object\testObject.cpp">
+      <Filter>source\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\System\debugLog.h">
@@ -52,12 +55,15 @@
       <Filter>header\System</Filter>
     </ClInclude>
     <ClInclude Include="header\Object\objectManager.h">
-     <Filter>header\Object</Filter>
+      <Filter>header\Object</Filter>
     </ClInclude>
     <ClInclude Include="header\Object\gameObject.h">
       <Filter>header\Object</Filter>
     </ClInclude>
     <ClInclude Include="header\Object\transform2D.h">
+      <Filter>header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Object\testObject.h">
       <Filter>header\Object</Filter>
     </ClInclude>
   </ItemGroup>
@@ -100,6 +106,9 @@
     </Filter>
     <Filter Include="header\Object">
       <UniqueIdentifier>{1cf0b493-e243-4203-82dc-9d6ccc63ed7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Object">
+      <UniqueIdentifier>{267d4608-6a32-4285-9bcc-fb56451a3bb2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
