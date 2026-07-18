@@ -1,4 +1,5 @@
 #include "Engine/dxRenderer.h"
+#include <string>
 
 struct VertexPC
 {
@@ -64,9 +65,9 @@ bool DXRenderer::CreateTriangleResources()
     // 1) 頂点バッファ
     VertexPC verts[3] =
     {
-        {  0.0f,  0.5f, 0.0f, 1,0,0,1 }, // 上(赤)
-        {  0.5f, -0.5f, 0.0f, 0,1,0,1 }, // 右下(緑)
-        { -0.5f, -0.5f, 0.0f, 0,0,1,1 }  // 左下(青)
+        {  0.0f,  0.5f, 0.0f, 1,0,0,1 },
+        {  0.5f, -0.5f, 0.0f, 0,1,0,1 },
+        { -0.5f, -0.5f, 0.0f, 0,0,1,1 }
     };
 
     D3D11_BUFFER_DESC bd = {};
@@ -80,41 +81,80 @@ bool DXRenderer::CreateTriangleResources()
     HRESULT hr = m_device->CreateBuffer(&bd, &init, m_vb.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    // 2) シェーダ（文字列直書き）
-    const char* vsSrc =
-        "struct VS_IN { float3 pos : POSITION; float4 col : COLOR; };"
-        "struct VS_OUT{ float4 pos : SV_POSITION; float4 col : COLOR; };"
-        "VS_OUT main(VS_IN v){ VS_OUT o; o.pos=float4(v.pos,1); o.col=v.col; return o; }";
-
-    const char* psSrc =
-        "struct PS_IN { float4 pos : SV_POSITION; float4 col : COLOR; };"
-        "float4 main(PS_IN p) : SV_TARGET { return p.col; }";
-
+    // 2) ファイルからシェーダコンパイル
     Microsoft::WRL::ComPtr<ID3DBlob> vsBlob, psBlob, errBlob;
 
-    hr = D3DCompile(vsSrc, strlen(vsSrc), nullptr, nullptr, nullptr, "main", "vs_5_0", 0, 0, vsBlob.GetAddressOf(), errBlob.GetAddressOf());
-    if (FAILED(hr)) return false;
+    UINT compileFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+#if defined(_DEBUG)
+    compileFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+    hr = D3DCompileFromFile(
+        L"shader/basic.hlsl",
+        nullptr,
+        D3D_COMPILE_STANDARD_FILE_INCLUDE,
+        "VSMain",
+        "vs_5_0",
+        compileFlags,
+        0,
+        vsBlob.GetAddressOf(),
+        errBlob.GetAddressOf()
+    );
+    if (FAILED(hr))
+    {
+        if (errBlob) OutputDebugStringA((char*)errBlob->GetBufferPointer());
+        return false;
+    }
 
     errBlob.Reset();
-    hr = D3DCompile(psSrc, strlen(psSrc), nullptr, nullptr, nullptr, "main", "ps_5_0", 0, 0, psBlob.GetAddressOf(), errBlob.GetAddressOf());
+    hr = D3DCompileFromFile(
+        L"shader/basic.hlsl",
+        nullptr,
+        D3D_COMPILE_STANDARD_FILE_INCLUDE,
+        "PSMain",
+        "ps_5_0",
+        compileFlags,
+        0,
+        psBlob.GetAddressOf(),
+        errBlob.GetAddressOf()
+    );
+    if (FAILED(hr))
+    {
+        if (errBlob) OutputDebugStringA((char*)errBlob->GetBufferPointer());
+        return false;
+    }
+
+    // 3) VS/PS作成
+    hr = m_device->CreateVertexShader(
+        vsBlob->GetBufferPointer(),
+        vsBlob->GetBufferSize(),
+        nullptr,
+        m_vs.GetAddressOf()
+    );
     if (FAILED(hr)) return false;
 
-    hr = m_device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, m_vs.GetAddressOf());
+    hr = m_device->CreatePixelShader(
+        psBlob->GetBufferPointer(),
+        psBlob->GetBufferSize(),
+        nullptr,
+        m_ps.GetAddressOf()
+    );
     if (FAILED(hr)) return false;
 
-    hr = m_device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), nullptr, m_ps.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    // 3) InputLayout
+    // 4) InputLayout
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,                          D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, sizeof(float) * 3,          D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,                 D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, sizeof(float) * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
     };
 
-    hr = m_device->CreateInputLayout(layout, _countof(layout),
-        vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(),
-        m_inputLayout.GetAddressOf());
+    hr = m_device->CreateInputLayout(
+        layout,
+        _countof(layout),
+        vsBlob->GetBufferPointer(),
+        vsBlob->GetBufferSize(),
+        m_inputLayout.GetAddressOf()
+    );
     if (FAILED(hr)) return false;
 
     return true;

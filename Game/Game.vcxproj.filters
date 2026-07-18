@@ -2,122 +2,128 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="source\System\debugLog.cpp">
-      <Filter>source\System</Filter>
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="source\System\time.cpp">
-      <Filter>source\System</Filter>
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="source\System\input.cpp">
-      <Filter>source\System</Filter>
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="source\main.cpp">
-      <Filter>source</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\System\config.cpp">
-      <Filter>source\System</Filter>
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="source\System\fileSystem.cpp">
-      <Filter>source\System</Filter>
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="source\System\assetPath.cpp">
-      <Filter>source\System</Filter>
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="source\Object\testObject.cpp">
-      <Filter>source\Object</Filter>
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\dxRenderer.cpp">
-      <Filter>source\Engine</Filter>
+      <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\System\debugLog.h">
-      <Filter>header\System</Filter>
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\input.h">
-      <Filter>header\System</Filter>
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\time.h">
-      <Filter>header\System</Filter>
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="header\Math\mathf.h">
-      <Filter>header\Math</Filter>
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="header\Math\vector2.h">
-      <Filter>header\Math</Filter>
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="header\Math\vector3.h">
-      <Filter>header\Math</Filter>
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="header\System\config.h">
-      <Filter>header\System</Filter>
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\fileSystem.h">
-      <Filter>header\System</Filter>
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\assetPath.h">
-      <Filter>header\System</Filter>
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="header\Object\objectManager.h">
-      <Filter>header\Object</Filter>
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="header\Object\gameObject.h">
-      <Filter>header\Object</Filter>
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="header\Object\transform2D.h">
-      <Filter>header\Object</Filter>
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="header\Object\testObject.h">
-      <Filter>header\Object</Filter>
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="header\Object\component.h">
-      <Filter>header\Object</Filter>
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="header\Engine\dxRenderer.h">
-      <Filter>header\Engine</Filter>
+      <Filter>ヘッダー ファイル\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="source">
-      <UniqueIdentifier>{6864b48c-4e86-42bd-b1bb-a65e2398fc34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="header">
+    <Filter Include="ヘッダー ファイル">
       <UniqueIdentifier>{feb767b8-92ac-49d7-97bd-1daab25eb5c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\System">
-      <UniqueIdentifier>{c76a5522-ae0f-4f6b-9226-77bbf8515659}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source\Math">
-      <UniqueIdentifier>{26f5bc88-0030-4b53-a1d8-e09286061ebe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source\Engine">
-      <UniqueIdentifier>{34d87fdd-efe2-4751-8e65-2b9a87c495d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source\Physics2D">
-      <UniqueIdentifier>{ce1576d8-1813-4da7-8de1-643307cd0214}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source\Gameplay">
-      <UniqueIdentifier>{33203271-bccd-41b5-84d8-190be317052c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="header\Math">
+    <Filter Include="ヘッダー ファイル\Math">
       <UniqueIdentifier>{b3a4c7a6-273b-4d32-bbcb-65862a74358b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="header\Engine">
+    <Filter Include="ヘッダー ファイル\Engine">
       <UniqueIdentifier>{2a972462-ff79-4a0c-91fe-7bcd651d9945}</UniqueIdentifier>
     </Filter>
-    <Filter Include="header\Gameplay">
+    <Filter Include="ヘッダー ファイル\Gameplay">
       <UniqueIdentifier>{02668817-907c-4a1d-9b27-83cf510a31e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="header\Physics2D">
+    <Filter Include="ヘッダー ファイル\Physics2D">
       <UniqueIdentifier>{d85b3d09-bb70-41ef-83cc-7df1d436f5f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="header\System">
+    <Filter Include="ヘッダー ファイル\System">
       <UniqueIdentifier>{584ae051-9d1e-4b39-9748-0b8ca174ab0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="header\Object">
+    <Filter Include="ヘッダー ファイル\Object">
       <UniqueIdentifier>{1cf0b493-e243-4203-82dc-9d6ccc63ed7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\Object">
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{6864b48c-4e86-42bd-b1bb-a65e2398fc34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{c76a5522-ae0f-4f6b-9226-77bbf8515659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Math">
+      <UniqueIdentifier>{26f5bc88-0030-4b53-a1d8-e09286061ebe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine">
+      <UniqueIdentifier>{34d87fdd-efe2-4751-8e65-2b9a87c495d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Physics2D">
+      <UniqueIdentifier>{ce1576d8-1813-4da7-8de1-643307cd0214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Gameplay">
+      <UniqueIdentifier>{33203271-bccd-41b5-84d8-190be317052c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object">
       <UniqueIdentifier>{267d4608-6a32-4285-9bcc-fb56451a3bb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{50958aba-6f9f-45fe-a1f3-0d66ebdb9df9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\basic.hlsl" />
   </ItemGroup>
 </Project>
