@@ -13,6 +13,9 @@
     <ClCompile Include="source\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\System\config.cpp">
+      <Filter>source\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\System\debugLog.h">
@@ -32,6 +35,9 @@
     </ClInclude>
     <ClInclude Include="header\Math\vector3.h">
       <Filter>header\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="header\System\config.h">
+      <Filter>header\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
