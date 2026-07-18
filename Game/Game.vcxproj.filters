@@ -43,13 +43,16 @@
       <Filter>header\Math</Filter>
     </ClInclude>
     <ClInclude Include="header\System\config.h">
-       <Filter>header\System</Filter>
+      <Filter>header\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\fileSystem.h">
-       <Filter>header\System</Filter>
+      <Filter>header\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\assetPath.h">
       <Filter>header\System</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Object\objectManager.h">
+      <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
