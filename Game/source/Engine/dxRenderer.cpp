@@ -1,5 +1,11 @@
 #include "Engine/dxRenderer.h"
 
+struct VertexPC
+{
+    float x, y, z;
+    float r, g, b, a;
+};
+
 bool DXRenderer::Initialize(HWND hwnd, int width, int height)
 {
     DXGI_SWAP_CHAIN_DESC sd = {};
@@ -30,7 +36,6 @@ bool DXRenderer::Initialize(HWND hwnd, int width, int height)
         levels, _countof(levels), D3D11_SDK_VERSION,
         &sd, m_swapChain.GetAddressOf(), m_device.GetAddressOf(),
         &featureLevel, m_context.GetAddressOf());
-
     if (FAILED(hr)) return false;
 
     Microsoft::WRL::ComPtr<ID3D11Texture2D> backBuffer;
@@ -51,6 +56,67 @@ bool DXRenderer::Initialize(HWND hwnd, int width, int height)
     vp.TopLeftY = 0.0f;
     m_context->RSSetViewports(1, &vp);
 
+    return CreateTriangleResources();
+}
+
+bool DXRenderer::CreateTriangleResources()
+{
+    // 1) 頂点バッファ
+    VertexPC verts[3] =
+    {
+        {  0.0f,  0.5f, 0.0f, 1,0,0,1 }, // 上(赤)
+        {  0.5f, -0.5f, 0.0f, 0,1,0,1 }, // 右下(緑)
+        { -0.5f, -0.5f, 0.0f, 0,0,1,1 }  // 左下(青)
+    };
+
+    D3D11_BUFFER_DESC bd = {};
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.ByteWidth = sizeof(verts);
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+    D3D11_SUBRESOURCE_DATA init = {};
+    init.pSysMem = verts;
+
+    HRESULT hr = m_device->CreateBuffer(&bd, &init, m_vb.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    // 2) シェーダ（文字列直書き）
+    const char* vsSrc =
+        "struct VS_IN { float3 pos : POSITION; float4 col : COLOR; };"
+        "struct VS_OUT{ float4 pos : SV_POSITION; float4 col : COLOR; };"
+        "VS_OUT main(VS_IN v){ VS_OUT o; o.pos=float4(v.pos,1); o.col=v.col; return o; }";
+
+    const char* psSrc =
+        "struct PS_IN { float4 pos : SV_POSITION; float4 col : COLOR; };"
+        "float4 main(PS_IN p) : SV_TARGET { return p.col; }";
+
+    Microsoft::WRL::ComPtr<ID3DBlob> vsBlob, psBlob, errBlob;
+
+    hr = D3DCompile(vsSrc, strlen(vsSrc), nullptr, nullptr, nullptr, "main", "vs_5_0", 0, 0, vsBlob.GetAddressOf(), errBlob.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    errBlob.Reset();
+    hr = D3DCompile(psSrc, strlen(psSrc), nullptr, nullptr, nullptr, "main", "ps_5_0", 0, 0, psBlob.GetAddressOf(), errBlob.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = m_device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, m_vs.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = m_device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), nullptr, m_ps.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    // 3) InputLayout
+    D3D11_INPUT_ELEMENT_DESC layout[] =
+    {
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,                          D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, sizeof(float) * 3,          D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    };
+
+    hr = m_device->CreateInputLayout(layout, _countof(layout),
+        vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(),
+        m_inputLayout.GetAddressOf());
+    if (FAILED(hr)) return false;
+
     return true;
 }
 
@@ -60,6 +126,20 @@ void DXRenderer::BeginFrame(float r, float g, float b, float a)
     m_context->ClearRenderTargetView(m_rtv.Get(), clearColor);
 }
 
+void DXRenderer::DrawTriangle()
+{
+    UINT stride = sizeof(VertexPC);
+    UINT offset = 0;
+    m_context->IASetVertexBuffers(0, 1, m_vb.GetAddressOf(), &stride, &offset);
+    m_context->IASetInputLayout(m_inputLayout.Get());
+    m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    m_context->VSSetShader(m_vs.Get(), nullptr, 0);
+    m_context->PSSetShader(m_ps.Get(), nullptr, 0);
+
+    m_context->Draw(3, 0);
+}
+
 void DXRenderer::EndFrame()
 {
     m_swapChain->Present(1, 0);
@@ -67,6 +147,11 @@ void DXRenderer::EndFrame()
 
 void DXRenderer::Finalize()
 {
+    m_inputLayout.Reset();
+    m_ps.Reset();
+    m_vs.Reset();
+    m_vb.Reset();
+
     m_rtv.Reset();
     m_swapChain.Reset();
     m_context.Reset();

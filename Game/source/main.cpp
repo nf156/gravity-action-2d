@@ -71,6 +71,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         objectManager.UpdateAll(dt);
 
 		renderer.BeginFrame(0.1f, 0.2f, 0.35f, 1.0f);
+		renderer.DrawTriangle();
         objectManager.DrawAll();
 		renderer.EndFrame();
 
