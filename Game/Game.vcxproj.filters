@@ -43,13 +43,16 @@
       <Filter>header\Math</Filter>
     </ClInclude>
     <ClInclude Include="header\System\config.h">
-       <Filter>header\System</Filter>
+      <Filter>header\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\fileSystem.h">
-       <Filter>header\System</Filter>
+      <Filter>header\System</Filter>
     </ClInclude>
     <ClInclude Include="header\System\assetPath.h">
       <Filter>header\System</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Object\gameObject.h">
+      <Filter>header\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +91,9 @@
     </Filter>
     <Filter Include="header\System">
       <UniqueIdentifier>{584ae051-9d1e-4b39-9748-0b8ca174ab0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header\Object">
+      <UniqueIdentifier>{1cf0b493-e243-4203-82dc-9d6ccc63ed7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
