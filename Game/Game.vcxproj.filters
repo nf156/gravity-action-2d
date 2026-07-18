@@ -14,6 +14,7 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\System\fileSystem.cpp">
+    <ClCompile Include="source\System\assetPath.cpp">
       <Filter>source\System</Filter>
     </ClCompile>
   </ItemGroup>
@@ -37,6 +38,7 @@
       <Filter>header\Math</Filter>
     </ClInclude>
     <ClInclude Include="header\System\fileSystem.h">
+    <ClInclude Include="header\System\assetPath.h">
       <Filter>header\System</Filter>
     </ClInclude>
   </ItemGroup>
