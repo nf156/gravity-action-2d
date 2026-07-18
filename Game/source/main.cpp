@@ -3,6 +3,7 @@
 #include "Object/objectManager.h"
 #include "Object/testObject.h"
 #include "Engine/dxRenderer.h"
+#include "Engine/SpriteRenderer.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -45,6 +46,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         return 0;
     }
 
+    SpriteRenderer sprite;
+    if (!sprite.Initialize(renderer.GetDevice(), renderer.GetContext()))
+    {
+        MessageBoxA(nullptr, "sprite.Initialize failed", "Error", MB_OK | MB_ICONERROR);
+        return 0;
+    }
+
+    if (!sprite.LoadTexture(L"asset/texture/sample.png"))
+    {
+        MessageBoxA(nullptr, "sprite.LoadTexture failed", "Error", MB_OK | MB_ICONERROR);
+        return 0;
+    }
+
     // 追加: オブジェクト基盤
     ObjectManager objectManager;
     objectManager.Add(std::make_shared<TestObject>());
@@ -77,6 +91,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 		renderer.BeginFrame(0.1f, 0.2f, 0.35f, 1.0f);
 		renderer.DrawTriangle(timeSec);
         objectManager.DrawAll();
+
+        // 追加（矩形1枚）
+        sprite.Begin();
+        sprite.Draw(100.0f, 100.0f, 220.0f, 120.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+        sprite.End();
+
 		renderer.EndFrame();
 
         objectManager.RemoveInactive();
