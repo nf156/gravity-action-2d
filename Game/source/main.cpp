@@ -1,5 +1,7 @@
 #include <windows.h>
 #include "System/time.h"
+#include "Object/objectManager.h"
+#include "Object/testObject.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -33,6 +35,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 
     Time::Initialize();
 
+    // 追加: オブジェクト基盤
+    ObjectManager objectManager;
+    objectManager.Add(std::make_shared<TestObject>());
+
     MSG msg = {};
     bool running = true;
     while (running)
@@ -51,11 +57,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         if (!running) break;
 
         Time::Update();
+        float dt = Time::DeltaTime(); // あなたのTime実装名に合わせて必要なら修正
 
-        // Update();
+        objectManager.UpdateAll(dt);
+        objectManager.DrawAll();
+        objectManager.RemoveInactive();
+
         // Render();
-        // 例: float dt = Time::DeltaTime();
     }
 
+    objectManager.Clear();
     return 0;
 }

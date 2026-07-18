@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Object\testObject.cpp" />
     <ClCompile Include="source\System\config.cpp" />
     <ClCompile Include="source\System\assetPath.cpp" />
     <ClCompile Include="source\System\debugLog.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="header\Math\vector3.h" />
     <ClInclude Include="header\Object\objectManager.h" />
     <ClInclude Include="header\Object\gameObject.h" />
+    <ClInclude Include="header\Object\testObject.h" />
     <ClInclude Include="header\Object\transform2D.h" />
     <ClInclude Include="header\System\config.h" />
     <ClInclude Include="header\System\assetPath.h" />
