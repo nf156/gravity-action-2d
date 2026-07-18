@@ -140,6 +140,7 @@
     <ClInclude Include="header\Math\vector2.h" />
     <ClInclude Include="header\Math\vector3.h" />
     <ClInclude Include="header\Object\gameObject.h" />
+    <ClInclude Include="header\Object\transform2D.h" />
     <ClInclude Include="header\System\config.h" />
     <ClInclude Include="header\System\assetPath.h" />
     <ClInclude Include="header\System\debugLog.h" />

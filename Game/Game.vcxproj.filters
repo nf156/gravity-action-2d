@@ -54,6 +54,9 @@
     <ClInclude Include="header\Object\gameObject.h">
       <Filter>header\Object</Filter>
     </ClInclude>
+    <ClInclude Include="header\Object\transform2D.h">
+      <Filter>header\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="source">
