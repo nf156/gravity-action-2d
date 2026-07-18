@@ -13,6 +13,10 @@ public:
     void EndFrame();
     void Finalize();
 
+    // ’Ç‰Á: SpriteRenderer ‚È‚Ç‘¼ƒNƒ‰ƒX‚Ö“n‚·—p
+    ID3D11Device* GetDevice() const { return m_device.Get(); }
+    ID3D11DeviceContext* GetContext() const { return m_context.Get(); }
+
 private:
     bool CreateTriangleResources();
 
