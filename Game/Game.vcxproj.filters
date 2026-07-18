@@ -13,6 +13,9 @@
     <ClCompile Include="source\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\System\assetPath.cpp">
+      <Filter>source\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\System\debugLog.h">
@@ -32,6 +35,9 @@
     </ClInclude>
     <ClInclude Include="header\Math\vector3.h">
       <Filter>header\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="header\System\assetPath.h">
+      <Filter>header\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
