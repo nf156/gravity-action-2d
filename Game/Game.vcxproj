@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Engine\camera2D.cpp" />
     <ClCompile Include="source\Engine\dxRenderer.cpp" />
     <ClCompile Include="source\Engine\spriteRenderer.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="source\System\time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\Engine\camera2D.h" />
     <ClInclude Include="header\Engine\dxRenderer.h" />
     <ClInclude Include="header\Engine\spriteRenderer.h" />
     <ClInclude Include="header\Math\mathf.h" />
