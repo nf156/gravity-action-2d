@@ -5,6 +5,7 @@
 #include "Physics2D/CollisionManager.h"
 #include "Physics2D/BoxCollider2D.h"
 #include "Physics2D/CircleCollider2D.h"
+#include "Physics2D/rigidbody2D.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -86,10 +87,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         // collision.CheckAll(...) の直後
         SetWindowTextW(hwnd, isHit ? L"Gravity Action 2D - HIT" : L"Gravity Action 2D - NO HIT");
 
-        playerBox.SetCenter({ 180.0f, 180.0f });
-        playerBox.SetHalfExtents({ 32.0f, 32.0f });
+        Rigidbody2D playerBody;
+        playerBody.SetPosition({ 180.0f, 120.0f });
+        playerBody.SetUseGravity(true);
 
-        enemyCircle.SetCenter({ 200.0f, 200.0f }); // 最初は離す
+        // 毎フレーム
+        playerBody.Update(dt);
+        playerBox.SetCenter(playerBody.GetPosition()); // コライダ中心へ反映
+
+        enemyCircle.SetCenter({ 180.0f, 400.0f }); // 最初は離す
         enemyCircle.SetRadius(24.0f);
 
         // TODO: isHitで色変更やログ出力など
