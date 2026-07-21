@@ -59,6 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         return 0;
     }
 
+
     // 追加: オブジェクト基盤
     ObjectManager objectManager;
     objectManager.Add(std::make_shared<TestObject>());
@@ -94,8 +95,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 
         // 追加（矩形1枚）
         sprite.Begin();
-        sprite.Draw(100.0f, 100.0f, 220.0f, 120.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-        sprite.End();
+        // 背景（奥）
+        sprite.Submit(0, 0, 256, 256, 1, 1, 1, 1, 0, 0, 0.9f);
+
+        // 地形・中景
+        sprite.Submit(120, 120, 256, 256, 1, 1, 1, 1, 1, 0, 0.5f);
+
+        // プレイヤー（手前）
+        sprite.Submit(180, 180, 256, 256, 1, 1, 1, 1, 2, 10, 0.5f);
+
+        sprite.Flush();
 
 		renderer.EndFrame();
 

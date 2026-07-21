@@ -2,6 +2,7 @@
 #include <d3dcompiler.h>
 #include <wincodec.h>
 #include <vector>
+#include <algorithm>
 #pragma comment(lib, "windowscodecs.lib")
 
 bool SpriteRenderer::Initialize(ID3D11Device* device, ID3D11DeviceContext* context)
@@ -204,6 +205,9 @@ bool SpriteRenderer::LoadTexture(const wchar_t* path)
 
 void SpriteRenderer::Begin()
 {
+    m_commands.clear();
+    m_submitSeq = 0;
+
     D3D11_MAPPED_SUBRESOURCE mapped = {};
     if (SUCCEEDED(m_context->Map(m_cb.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
     {
@@ -219,22 +223,52 @@ void SpriteRenderer::Begin()
     m_context->PSSetShader(m_ps.Get(), nullptr, 0);
     m_context->IASetInputLayout(m_inputLayout.Get());
     m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
     m_context->PSSetShaderResources(0, 1, m_srv.GetAddressOf());
     m_context->PSSetSamplers(0, 1, m_sampler.GetAddressOf());
 }
 
-void SpriteRenderer::Draw(float x, float y, float w, float h, float r, float g, float b, float a)
+void SpriteRenderer::Submit(
+    float x, float y, float w, float h,
+    float r, float g, float b, float a,
+    int layer, int order, float depth)
+{
+    DrawCommand cmd{};
+    cmd.x = x; cmd.y = y; cmd.w = w; cmd.h = h;
+    cmd.r = r; cmd.g = g; cmd.b = b; cmd.a = a;
+    cmd.layer = layer;
+    cmd.order = order;
+    cmd.depth = depth; // 追加
+    cmd.seq = m_submitSeq++;
+    m_commands.push_back(cmd);
+}
+
+// Flush のソートを layer -> depth -> order -> seq に
+void SpriteRenderer::Flush()
+{
+    std::stable_sort(m_commands.begin(), m_commands.end(),
+        [](const DrawCommand& a, const DrawCommand& b)
+        {
+            if (a.layer != b.layer) return a.layer < b.layer;      // 低→高
+            if (a.depth != b.depth) return a.depth > b.depth;      // 奥(大)→手前(小) を先に描く
+            if (a.order != b.order) return a.order < b.order;      // 同depthなら order
+            return a.seq < b.seq;                                  // 最後は投入順
+        });
+
+    for (const auto& cmd : m_commands)
+        DrawInternal(cmd);
+}
+
+void SpriteRenderer::DrawInternal(const DrawCommand& c)
 {
     Vertex v[6] =
     {
-        { x,     y,     0, r,g,b,a, 0,0 },
-        { x + w, y,     0, r,g,b,a, 1,0 },
-        { x,     y + h, 0, r,g,b,a, 0,1 },
+        { c.x,       c.y,       0, c.r,c.g,c.b,c.a, 0,0 },
+        { c.x + c.w,   c.y,       0, c.r,c.g,c.b,c.a, 1,0 },
+        { c.x,       c.y + c.h,   0, c.r,c.g,c.b,c.a, 0,1 },
 
-        { x + w, y,     0, r,g,b,a, 1,0 },
-        { x + w, y + h, 0, r,g,b,a, 1,1 },
-        { x,     y + h, 0, r,g,b,a, 0,1 },
+        { c.x + c.w,   c.y,       0, c.r,c.g,c.b,c.a, 1,0 },
+        { c.x + c.w,   c.y + c.h,   0, c.r,c.g,c.b,c.a, 1,1 },
+        { c.x,       c.y + c.h,   0, c.r,c.g,c.b,c.a, 0,1 },
     };
 
     D3D11_MAPPED_SUBRESOURCE mapped = {};
@@ -245,7 +279,6 @@ void SpriteRenderer::Draw(float x, float y, float w, float h, float r, float g, 
     UINT stride = sizeof(Vertex);
     UINT offset = 0;
     m_context->IASetVertexBuffers(0, 1, m_vb.GetAddressOf(), &stride, &offset);
-
     m_context->Draw(6, 0);
 }
 
