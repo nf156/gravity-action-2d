@@ -102,3 +102,41 @@ bool CollisionManager::OverlapBoxCircle(const BoxCollider2D& box, const CircleCo
 
     return (dx * dx + dy * dy) <= (circle.GetRadius() * circle.GetRadius());
 }
+
+CollisionManifold CollisionManager::GetManifoldBoxBox(const BoxCollider2D& a, const BoxCollider2D& b)
+{
+    CollisionManifold m{};
+
+    const float aLeft = a.Left();
+    const float aRight = a.Right();
+    const float aTop = a.Top();
+    const float aBottom = a.Bottom();
+
+    const float bLeft = b.Left();
+    const float bRight = b.Right();
+    const float bTop = b.Top();
+    const float bBottom = b.Bottom();
+
+    const float overlapX = (aRight < bRight ? aRight : bRight) - (aLeft > bLeft ? aLeft : bLeft);
+    const float overlapY = (aBottom < bBottom ? aBottom : bBottom) - (aTop > bTop ? aTop : bTop);
+
+    if (overlapX <= 0.0f || overlapY <= 0.0f) return m;
+
+    m.hit = true;
+
+    const Vector2 ac = a.GetCenter();
+    const Vector2 bc = b.GetCenter();
+
+    if (overlapX < overlapY)
+    {
+        m.penetration = overlapX;
+        m.normal = (ac.x < bc.x) ? Vector2{ 1.0f, 0.0f } : Vector2{ -1.0f, 0.0f };
+    }
+    else
+    {
+        m.penetration = overlapY;
+        m.normal = (ac.y < bc.y) ? Vector2{ 0.0f, 1.0f } : Vector2{ 0.0f, -1.0f };
+    }
+
+    return m;
+}
