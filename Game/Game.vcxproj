@@ -134,6 +134,7 @@
     <ClCompile Include="source\Engine\spriteRenderer.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Object\testObject.cpp" />
+    <ClCompile Include="source\Physics2D\collisionManager.cpp" />
     <ClCompile Include="source\System\config.cpp" />
     <ClCompile Include="source\System\assetPath.cpp" />
     <ClCompile Include="source\System\debugLog.cpp" />
@@ -153,6 +154,10 @@
     <ClInclude Include="header\Object\gameObject.h" />
     <ClInclude Include="header\Object\testObject.h" />
     <ClInclude Include="header\Object\transform2D.h" />
+    <ClInclude Include="header\Physics2D\boxCollider2D.h" />
+    <ClInclude Include="header\Physics2D\circleCollider2D.h" />
+    <ClInclude Include="header\Physics2D\collider2D.h" />
+    <ClInclude Include="header\Physics2D\collisionManager.h" />
     <ClInclude Include="header\System\config.h" />
     <ClInclude Include="header\System\assetPath.h" />
     <ClInclude Include="header\System\debugLog.h" />

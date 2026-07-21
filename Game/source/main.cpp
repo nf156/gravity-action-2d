@@ -1,9 +1,10 @@
 #include <windows.h>
-#include "System/time.h"
-#include "Object/objectManager.h"
-#include "Object/testObject.h"
-#include "Engine/dxRenderer.h"
-#include "Engine/SpriteRenderer.h"
+#include <chrono>
+
+// 追加
+#include "Physics2D/CollisionManager.h"
+#include "Physics2D/BoxCollider2D.h"
+#include "Physics2D/CircleCollider2D.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -31,43 +32,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720,
         nullptr, nullptr, hInstance, nullptr
     );
-
-    if (hwnd == nullptr) return 0;
+    if (!hwnd) return 0;
     ShowWindow(hwnd, nCmdShow);
 
-	//  Time 初期化
-    Time::Initialize();
+    // --- ここから物理テスト用 ---
+    BoxCollider2D playerBox;
+    playerBox.SetCenter({ 180.0f, 180.0f });
+    playerBox.SetHalfExtents({ 32.0f, 32.0f });
 
-    // DX 初期化
-    DXRenderer renderer;
-    if (!renderer.Initialize(hwnd, 1280, 720))
-    {
-        MessageBoxA(nullptr, "renderer.Initialize failed", "Error", MB_OK | MB_ICONERROR);
-        return 0;
-    }
+    CircleCollider2D enemyCircle;
+    enemyCircle.SetCenter({ 220.0f, 200.0f });
+    enemyCircle.SetRadius(24.0f);
 
-    SpriteRenderer sprite;
-    if (!sprite.Initialize(renderer.GetDevice(), renderer.GetContext()))
-    {
-        MessageBoxA(nullptr, "sprite.Initialize failed", "Error", MB_OK | MB_ICONERROR);
-        return 0;
-    }
+    CollisionManager collision;
+    bool isHit = false;
+    // --- ここまで物理テスト用 ---
 
-    if (!sprite.LoadTexture(L"asset/texture/sample.png"))
-    {
-        MessageBoxA(nullptr, "sprite.LoadTexture failed", "Error", MB_OK | MB_ICONERROR);
-        return 0;
-    }
+    using clock = std::chrono::steady_clock;
+    auto prev = clock::now();
 
-
-    // 追加: オブジェクト基盤
-    ObjectManager objectManager;
-    objectManager.Add(std::make_shared<TestObject>());
-
-    float timeSec = 0.0f;
-
-    MSG msg = {};
     bool running = true;
+    MSG msg = {};
     while (running)
     {
         while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -80,40 +65,37 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-
         if (!running) break;
 
-        Time::Update();
-        float dt = Time::DeltaTime(); // あなたのTime実装名に合わせて必要なら修正
-		timeSec += dt;
+        auto now = clock::now();
+        std::chrono::duration<float> elapsed = now - prev;
+        prev = now;
+        float dt = elapsed.count();
+        (void)dt; // 今は未使用でもOK
 
-        objectManager.UpdateAll(dt);
+        // ===== Update =====
+        collision.Clear();
+        collision.AddCollider(&playerBox);
+        collision.AddCollider(&enemyCircle);
 
-		renderer.BeginFrame(0.1f, 0.2f, 0.35f, 1.0f);
-		renderer.DrawTriangle(timeSec);
-        objectManager.DrawAll();
+        isHit = false;
+        collision.CheckAll([&](Collider2D*, Collider2D*) {
+            isHit = true;
+            });
 
-        // 追加（矩形1枚）
-        sprite.Begin();
-        // 背景（奥）
-        sprite.Submit(0, 0, 256, 256, 1, 1, 1, 1, 0, 0, 0.9f);
+        // collision.CheckAll(...) の直後
+        SetWindowTextW(hwnd, isHit ? L"Gravity Action 2D - HIT" : L"Gravity Action 2D - NO HIT");
 
-        // 地形・中景
-        sprite.Submit(120, 120, 256, 256, 1, 1, 1, 1, 1, 0, 0.5f);
+        playerBox.SetCenter({ 180.0f, 180.0f });
+        playerBox.SetHalfExtents({ 32.0f, 32.0f });
 
-        // プレイヤー（手前）
-        sprite.Submit(180, 180, 256, 256, 1, 1, 1, 1, 2, 10, 0.5f);
+        enemyCircle.SetCenter({ 200.0f, 200.0f }); // 最初は離す
+        enemyCircle.SetRadius(24.0f);
 
-        sprite.Flush();
-
-		renderer.EndFrame();
-
-        objectManager.RemoveInactive();
-
-        // Render();
+        // TODO: isHitで色変更やログ出力など
+        // ===== Render =====
+        // （今は未実装）
     }
 
-    objectManager.Clear();
-	renderer.Finalize();
     return 0;
 }

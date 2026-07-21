@@ -34,6 +34,9 @@
     <ClCompile Include="source\Engine\camera2D.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="source\Physics2D\collisionManager.cpp">
+      <Filter>ソース ファイル\Physics2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\System\debugLog.h">
@@ -86,6 +89,18 @@
     </ClInclude>
     <ClInclude Include="header\Engine\camera2D.h">
       <Filter>ヘッダー ファイル\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Physics2D\collider2D.h">
+      <Filter>ヘッダー ファイル\Physics2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Physics2D\boxCollider2D.h">
+      <Filter>ヘッダー ファイル\Physics2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Physics2D\circleCollider2D.h">
+      <Filter>ヘッダー ファイル\Physics2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Physics2D\collisionManager.h">
+      <Filter>ヘッダー ファイル\Physics2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
