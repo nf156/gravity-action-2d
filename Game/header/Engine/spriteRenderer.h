@@ -1,14 +1,25 @@
 #pragma once
 #include <d3d11.h>
 #include <wrl/client.h>
+#include <vector>
 
 class SpriteRenderer
 {
 public:
     bool Initialize(ID3D11Device* device, ID3D11DeviceContext* context);
-    bool LoadTexture(const wchar_t* path); // í«â¡
+    bool LoadTexture(const wchar_t* path);
     void Begin();
-    void Draw(float x, float y, float w, float h, float r, float g, float b, float a);
+
+    // í«â¡: íºê⁄DrawÇÃë„ÇÌÇËÇ…ÉLÉÖÅ[Ç÷êœÇﬁ
+    // Submit ÇÃà¯êîÇ… depth í«â¡
+    void Submit(
+        float x, float y, float w, float h,
+        float r, float g, float b, float a,
+        int layer, int order, float depth);
+
+    // í«â¡: sortÇµÇƒé¿ï`âÊ
+    void Flush();
+
     void End();
     void Finalize();
 
@@ -17,15 +28,26 @@ private:
     {
         float px, py, pz;
         float cr, cg, cb, ca;
-        float u, v; // í«â¡
+        float u, v;
     };
 
     struct CB
     {
-        float screenSize[2]; // width, height
+        float screenSize[2];
         float pad[2];
     };
 
+    struct DrawCommand
+    {
+        float x, y, w, h;
+        float r, g, b, a;
+        int layer;
+        int order;
+        float depth;   // í«â¡: è¨Ç≥Ç¢ÇŸÇ«éËëO / ëÂÇ´Ç¢ÇŸÇ«âú
+        uint64_t seq;
+    };
+
+    void DrawInternal(const DrawCommand& cmd);
     bool CreateShaders();
     bool CreateBuffers();
 
@@ -38,10 +60,12 @@ private:
     Microsoft::WRL::ComPtr<ID3D11InputLayout>  m_inputLayout;
     Microsoft::WRL::ComPtr<ID3D11Buffer>       m_vb;
     Microsoft::WRL::ComPtr<ID3D11Buffer>       m_cb;
-
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv; // í«â¡
-    Microsoft::WRL::ComPtr<ID3D11SamplerState>       m_sampler; // í«â¡
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv;
+    Microsoft::WRL::ComPtr<ID3D11SamplerState>       m_sampler;
 
     float m_screenW = 1280.0f;
     float m_screenH = 720.0f;
+
+    std::vector<DrawCommand> m_commands; // í«â¡
+    uint64_t m_submitSeq = 0;             // í«â¡
 };
