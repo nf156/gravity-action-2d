@@ -105,6 +105,9 @@
     <ClInclude Include="header\Physics2D\rigidbody2D.h">
       <Filter>ヘッダー ファイル\Physics2D</Filter>
     </ClInclude>
+    <ClInclude Include="header\Physics2D\collisionManifold.h">
+      <Filter>ヘッダー ファイル\Physics2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ヘッダー ファイル">
