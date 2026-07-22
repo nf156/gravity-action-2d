@@ -25,9 +25,19 @@ public:
         m_position.y += m_velocity.y * dt;
     }
 
+	// 反発係数の設定（0=跳ねない, 1=完全反射）
+    void SetRestitution(float e) { m_restitution = e; }   // 0..1
+    float GetRestitution() const { return m_restitution; }
+
+	// 摩擦係数の設定（0..1 推奨）
+    void SetFriction(float f) { m_friction = f; }   // 0..1 推奨
+    float GetFriction() const { return m_friction; }
+
 private:
     Vector2 m_position{ 0.0f, 0.0f };
     Vector2 m_velocity{ 0.0f, 0.0f };
     float m_gravity = 980.0f; // px/s^2
     bool m_useGravity = true;
+    float m_restitution = 0.0f; // 0=跳ねない, 1=完全反射
+    float m_friction = 0.2f;
 };
