@@ -37,6 +37,9 @@
     <ClCompile Include="source\Physics2D\collisionManager.cpp">
       <Filter>ソース ファイル\Physics2D</Filter>
     </ClCompile>
+    <ClCompile Include="source\Physics2D\physicsWorld2D.cpp">
+      <Filter>ソース ファイル\Physics2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\System\debugLog.h">
@@ -106,6 +109,9 @@
       <Filter>ヘッダー ファイル\Physics2D</Filter>
     </ClInclude>
     <ClInclude Include="header\Physics2D\collisionManifold.h">
+      <Filter>ヘッダー ファイル\Physics2D</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Physics2D\physicsWorld2D.h">
       <Filter>ヘッダー ファイル\Physics2D</Filter>
     </ClInclude>
   </ItemGroup>

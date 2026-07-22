@@ -135,6 +135,7 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Object\testObject.cpp" />
     <ClCompile Include="source\Physics2D\collisionManager.cpp" />
+    <ClCompile Include="source\Physics2D\physicsWorld2D.cpp" />
     <ClCompile Include="source\System\config.cpp" />
     <ClCompile Include="source\System\assetPath.cpp" />
     <ClCompile Include="source\System\debugLog.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="header\Physics2D\collider2D.h" />
     <ClInclude Include="header\Physics2D\collisionManager.h" />
     <ClInclude Include="header\Physics2D\collisionManifold.h" />
+    <ClInclude Include="header\Physics2D\physicsWorld2D.h" />
     <ClInclude Include="header\Physics2D\rigidbody2D.h" />
     <ClInclude Include="header\System\config.h" />
     <ClInclude Include="header\System\assetPath.h" />
