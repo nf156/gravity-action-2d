@@ -93,7 +93,7 @@
     <ClInclude Include="header\Engine\camera2D.h">
       <Filter>ヘッダー ファイル\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="header\Physics2D\collider2D.h">
+    <ClInclude Include="header\Physics2D\collider.h">
       <Filter>ヘッダー ファイル\Physics2D</Filter>
     </ClInclude>
     <ClInclude Include="header\Physics2D\boxCollider2D.h">

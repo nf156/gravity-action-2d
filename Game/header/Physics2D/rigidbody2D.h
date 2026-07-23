@@ -4,40 +4,43 @@
 class Rigidbody2D
 {
 public:
-    void SetPosition(const Vector2& p) { m_position = p; }
-    Vector2 GetPosition() const { return m_position; }
+    void SetPosition(const Vector2& p) { m_pos = p; }
+    Vector2 GetPosition() const { return m_pos; }
 
-    void SetVelocity(const Vector2& v) { m_velocity = v; }
-    Vector2 GetVelocity() const { return m_velocity; }
+    void SetVelocity(const Vector2& v) { m_vel = v; }
+    Vector2 GetVelocity() const { return m_vel; }
 
     void SetUseGravity(bool v) { m_useGravity = v; }
     bool GetUseGravity() const { return m_useGravity; }
 
-    void SetGravity(float g) { m_gravity = g; } // +Y下向き想定
-    float GetGravity() const { return m_gravity; }
+    void SetGravity(float g) { m_gravity = g; }
 
-    void Update(float dt)
-    {
-        if (m_useGravity)
-            m_velocity.y += m_gravity * dt;
-
-        m_position.x += m_velocity.x * dt;
-        m_position.y += m_velocity.y * dt;
-    }
-
-	// 反発係数の設定（0=跳ねない, 1=完全反射）
-    void SetRestitution(float e) { m_restitution = e; }   // 0..1
+    void SetRestitution(float e) { m_restitution = e; } // 0..1
     float GetRestitution() const { return m_restitution; }
 
-	// 摩擦係数の設定（0..1 推奨）
-    void SetFriction(float f) { m_friction = f; }   // 0..1 推奨
+    void SetFriction(float f) { m_friction = f; } // 0..1
     float GetFriction() const { return m_friction; }
 
+    void Integrate(float dt)
+    {
+        if (m_useGravity) m_vel.y += m_gravity * dt;
+        m_pos.x += m_vel.x * dt;
+        m_pos.y += m_vel.y * dt;
+    }
+
+    // public に追加
+    bool IsSleeping() const { return m_sleeping; }
+    void SetSleeping(bool v) { m_sleeping = v; }
+    float GetSleepTimer() const { return m_sleepTimer; }
+    void SetSleepTimer(float t) { m_sleepTimer = t; }
+
 private:
-    Vector2 m_position{ 0.0f, 0.0f };
-    Vector2 m_velocity{ 0.0f, 0.0f };
-    float m_gravity = 980.0f; // px/s^2
+    Vector2 m_pos{ 0,0 };
+    Vector2 m_vel{ 0,0 };
+    float m_gravity = 980.0f;
     bool m_useGravity = true;
-    float m_restitution = 0.0f; // 0=跳ねない, 1=完全反射
+    float m_restitution = 0.0f;
     float m_friction = 0.2f;
+	bool m_sleeping = false;
+	float m_sleepTimer = 0.0f;
 };
