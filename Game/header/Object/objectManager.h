@@ -3,6 +3,7 @@
 #include <memory>
 #include <algorithm>
 #include "Object/gameObject.h"
+#include "Engine/SpriteRenderer.h"
 
 class ObjectManager
 {
@@ -18,19 +19,18 @@ public:
     {
         for (auto& obj : m_objects)
         {
-            if (!obj) continue;
-            if (!obj->IsActive()) continue;
+            if (!obj || !obj->IsActive()) continue;
             obj->Update(dt);
         }
     }
 
-    void DrawAll()
+    // •ÏX: renderer‚ðŽó‚¯Žæ‚é
+    void DrawAll(SpriteRenderer& renderer)
     {
         for (auto& obj : m_objects)
         {
-            if (!obj) continue;
-            if (!obj->IsActive()) continue;
-            obj->Draw();
+            if (!obj || !obj->IsActive()) continue;
+            obj->Draw(renderer); // Drawˆø”‚ ‚è”Å
         }
     }
 
@@ -38,10 +38,7 @@ public:
     {
         for (auto& obj : m_objects)
         {
-            if (obj && !obj->IsActive())
-            {
-                obj->Finalize();
-            }
+            if (obj && !obj->IsActive()) obj->Finalize();
         }
 
         m_objects.erase(

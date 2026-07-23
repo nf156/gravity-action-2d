@@ -1,27 +1,25 @@
 #pragma once
-#include "Object/transform2D.h"
+#include "Math/Vector2.h"
+class SpriteRenderer;
 
 class GameObject
 {
 public:
-    GameObject() : m_isActive(true) {}
     virtual ~GameObject() = default;
-
-    // ライフサイクル
     virtual void Initialize() {}
-    virtual void Update(float /*dt*/) {}
-    virtual void Draw() {}
+    virtual void Update(float dt) {}
+    virtual void Draw(SpriteRenderer& renderer) {} // 変更
     virtual void Finalize() {}
 
-    // Active制御
-    bool IsActive() const { return m_isActive; }
-    void SetActive(bool active) { m_isActive = active; }
-
-    // Transformアクセス
-    Transform2D& GetTransform() { return m_transform; }
-    const Transform2D& GetTransform() const { return m_transform; }
+    bool IsActive() const { return m_active; }
+    void SetActive(bool v) { m_active = v; }
 
 protected:
-    Transform2D m_transform;
-    bool m_isActive;
+    struct Transform
+    {
+        Vector2 position{ 0, 0 };
+    } m_transform;
+
+private:
+    bool m_active = true;
 };
