@@ -28,6 +28,12 @@ public:
         m_pos.y += m_vel.y * dt;
     }
 
+    // public ‚É’Ç‰Á
+    bool IsSleeping() const { return m_sleeping; }
+    void SetSleeping(bool v) { m_sleeping = v; }
+    float GetSleepTimer() const { return m_sleepTimer; }
+    void SetSleepTimer(float t) { m_sleepTimer = t; }
+
 private:
     Vector2 m_pos{ 0,0 };
     Vector2 m_vel{ 0,0 };
@@ -35,4 +41,6 @@ private:
     bool m_useGravity = true;
     float m_restitution = 0.0f;
     float m_friction = 0.2f;
+	bool m_sleeping = false;
+	float m_sleepTimer = 0.0f;
 };

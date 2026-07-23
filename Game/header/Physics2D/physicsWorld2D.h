@@ -15,6 +15,10 @@ public:
     void SetGravity(float g) { m_gravity = g; }
     void AddStaticBox(BoxCollider2D* box);
     void AddDynamic(BodyColliderPair p);
+
+    // ’Ç‰Á
+    void RemoveDynamic(Rigidbody2D* body, BoxCollider2D* collider);
+
     void ClearStatics();
     void ClearDynamics();
     void Step(float dt);

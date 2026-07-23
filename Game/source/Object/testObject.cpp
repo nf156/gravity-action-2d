@@ -57,8 +57,9 @@ void TestObject::Draw(SpriteRenderer& renderer)
 
 void TestObject::Finalize()
 {
-    // ¡‚ÌWorldŽÀ‘•‚É RemoveDynamic ‚ª–³‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
-    // ‚ ‚é‚È‚ç‚±‚±‚Å‰ðœ
-    // if (m_registered && m_world) m_world->RemoveDynamic(&m_body, &m_box);
+    if (m_registered && m_world)
+    {
+        m_world->RemoveDynamic(&m_body, &m_box);
+    }
     m_registered = false;
 }
