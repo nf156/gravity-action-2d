@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <chrono>
+#include <cwchar>
 
-// 物理
 #include "Physics2D/PhysicsWorld2D.h"
 #include "Physics2D/Rigidbody2D.h"
 #include "Physics2D/BoxCollider2D.h"
@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     PhysicsWorld2D world;
     world.SetGravity(980.0f);
 
-    // 静的コライダ（床・壁など）
+    // static colliders
     BoxCollider2D groundBox;
     groundBox.SetCenter({ 640.0f, 680.0f });
     groundBox.SetHalfExtents({ 640.0f, 20.0f });
@@ -63,11 +63,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     world.AddStaticBox(&wallLeft);
     world.AddStaticBox(&wallRight);
 
-    // 動的ボディ（プレイヤー想定）
+    // dynamic body
     Rigidbody2D playerBody;
     playerBody.SetPosition({ 220.0f, 120.0f });
-    playerBody.SetVelocity({ 120.0f, 0.0f }); // 横移動テスト
+    playerBody.SetVelocity({ 120.0f, 0.0f });
     playerBody.SetUseGravity(true);
+    playerBody.SetRestitution(0.0f);
+    playerBody.SetFriction(0.2f);
 
     BoxCollider2D playerBox;
     playerBox.SetCenter(playerBody.GetPosition());
@@ -105,33 +107,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         float frameDt = std::chrono::duration<float>(now - prev).count();
         prev = now;
 
-        // 暴走防止
         if (frameDt > 0.25f) frameDt = 0.25f;
-
         accumulator += frameDt;
 
-        // 物理更新（固定刻み）
         while (accumulator >= fixedDt)
         {
             world.Step(fixedDt);
             accumulator -= fixedDt;
         }
 
-        // デバッグ表示（任意）
+        // debug title
         Vector2 p = playerBody.GetPosition();
-        wchar_t title[128];
-        wsprintf(title, L"Gravity Action 2D  x=%.1f y=%.1f", p.x, p.y);
-        SetWindowText(hwnd, title);
+        Vector2 v = playerBody.GetVelocity();
 
-        // =========================
-        // Render
-        // =========================
-        // ここに既存描画処理を呼ぶ
-        // 例:
-        // renderer.Begin();
-        // renderer.Draw(... playerBox ...);
-        // renderer.Draw(... groundBox ...);
-        // renderer.End();
+        wchar_t title[256];
+        swprintf_s(
+            title,
+            L"Gravity Action 2D | x=%.1f y=%.1f | vx=%.2f vy=%.2f",
+            p.x, p.y, v.x, v.y
+        );
+        SetWindowTextW(hwnd, title);
+
+        // Render: 未実装
     }
 
     return 0;

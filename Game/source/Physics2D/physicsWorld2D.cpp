@@ -1,80 +1,66 @@
 #include "Physics2D/PhysicsWorld2D.h"
-#include "Physics2D/CollisionManager.h"
-#include "Physics2D/CollisionManifold.h"
+#include "Physics2D/Collider.h"
 
 void PhysicsWorld2D::AddStaticBox(BoxCollider2D* box)
 {
-    if (!box) return;
-    m_staticBoxes.push_back(box);
+    if (box) m_static.push_back(box);
 }
-
 void PhysicsWorld2D::AddDynamic(BodyColliderPair p)
 {
-    if (!p.body || !p.collider) return;
-    m_dynamics.push_back(p);
+    if (p.body && p.collider) m_dynamic.push_back(p);
 }
-
-void PhysicsWorld2D::ClearStatics()
-{
-    m_staticBoxes.clear();
-}
-
-void PhysicsWorld2D::ClearDynamics()
-{
-    m_dynamics.clear();
-}
+void PhysicsWorld2D::ClearStatics() { m_static.clear(); }
+void PhysicsWorld2D::ClearDynamics() { m_dynamic.clear(); }
 
 void PhysicsWorld2D::Step(float dt)
 {
-    for (auto& it : m_dynamics)
+    const int kIterations = 4;
+
+    for (auto& d : m_dynamic)
     {
-        if (!it.body || !it.collider) continue;
+        d.body->SetGravity(m_gravity);
+        d.body->Integrate(dt);
+        d.collider->SetCenter(d.body->GetPosition());
+    }
 
-        // 1) integrate
-        it.body->SetGravity(m_gravity);
-        it.body->Update(dt);
-        it.collider->SetCenter(it.body->GetPosition());
-
-        // 2) solve vs all static boxes
-        for (BoxCollider2D* s : m_staticBoxes)
+    for (int it = 0; it < kIterations; ++it)
+    {
+        for (auto& d : m_dynamic)
         {
-            if (!s) continue;
-
-            CollisionManifold m = CollisionManager::GetManifoldBoxBox(*it.collider, *s);
-            if (!m.hit) continue;
-
-            // push back dynamic
-            Vector2 p = it.body->GetPosition();
-            p.x -= m.normal.x * m.penetration;
-            p.y -= m.normal.y * m.penetration;
-            it.body->SetPosition(p);
-            it.collider->SetCenter(p);
-
-            // remove inward normal velocity
-            Vector2 v = it.body->GetVelocity();
-            const float vn = v.x * m.normal.x + v.y * m.normal.y;
-
-            if (vn < 0.0f)
+            for (auto* s : m_static)
             {
-                const float e = it.body->GetRestitution();
-                v.x -= (1.0f + e) * vn * m.normal.x;
-                v.y -= (1.0f + e) * vn * m.normal.y;
+                if (!s) continue;
+                if (!OverlapBoxBox(*d.collider, *s)) continue;
+
+                Manifold2D m = GetManifoldBoxBox(*d.collider, *s);
+                if (!m.hit) continue;
+
+                Vector2 p = d.body->GetPosition();
+                p.x -= m.normal.x * m.penetration;
+                p.y -= m.normal.y * m.penetration;
+                d.body->SetPosition(p);
+                d.collider->SetCenter(p);
+
+                Vector2 v = d.body->GetVelocity();
+                const float vn = v.x * m.normal.x + v.y * m.normal.y;
+                if (vn < 0.0f)
+                {
+                    float e = d.body->GetRestitution();
+                    v.x -= (1.0f + e) * vn * m.normal.x;
+                    v.y -= (1.0f + e) * vn * m.normal.y;
+                }
+
+                Vector2 t{ -m.normal.y, m.normal.x };
+                float vt = v.x * t.x + v.y * t.y;
+                vt *= (1.0f - d.body->GetFriction());
+
+                float vn2 = v.x * m.normal.x + v.y * m.normal.y;
+                v.x = m.normal.x * vn2 + t.x * vt;
+                v.y = m.normal.y * vn2 + t.y * vt;
+
+                if (m.normal.y != 0.0f && v.y > 0.0f) v.y = 0.0f; // 床安定
+                d.body->SetVelocity(v);
             }
-
-            // --- friction ---
-            Vector2 t{ -m.normal.y, m.normal.x };         // 接線
-            float vt = v.x * t.x + v.y * t.y;             // 接線方向速度
-            float mu = it.body->GetFriction();            // 0..1
-
-            // シンプル減衰モデル
-            vt *= (1.0f - mu);
-
-            // v = vn成分 + vt成分 に再構成
-            float vn2 = v.x * m.normal.x + v.y * m.normal.y;
-            v.x = m.normal.x * vn2 + t.x * vt;
-            v.y = m.normal.y * vn2 + t.y * vt;
-
-            it.body->SetVelocity(v);
         }
     }
 }
