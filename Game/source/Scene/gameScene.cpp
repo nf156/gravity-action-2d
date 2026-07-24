@@ -10,9 +10,10 @@
 
 void GameScene::Initialize()
 {
-    // Add() ‘¤‚ª Initialize() ‚ðŒÄ‚Ô
-    auto player = std::make_shared<Player>(m_tm);
-    m_objectManager.Add(player);
+    if (m_tm) m_tm->Load("game_bg", "texture/game.png");
+
+    // ‚±‚ê‚ª‚â‚è‚½‚¢Œ`
+    m_objectManager.AddGameObject<Player>(m_tm);
 }
 
 void GameScene::Update(float dt)
@@ -28,6 +29,8 @@ void GameScene::Update(float dt)
 
 void GameScene::Draw(SpriteRenderer& renderer)
 {
+   
+
     m_objectManager.DrawAll(renderer);
 }
 
