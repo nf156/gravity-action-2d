@@ -135,7 +135,9 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Object\gameBG.cpp" />
     <ClCompile Include="source\Object\player.cpp" />
+    <ClCompile Include="source\Object\resultBG.cpp" />
     <ClCompile Include="source\Object\testObject.cpp" />
+    <ClCompile Include="source\Object\titleBG.cpp" />
     <ClCompile Include="source\Physics2D\collisionManager.cpp" />
     <ClCompile Include="source\Physics2D\physicsWorld2D.cpp" />
     <ClCompile Include="source\Scene\gameScene.cpp" />
@@ -161,7 +163,9 @@
     <ClInclude Include="header\Object\objectManager.h" />
     <ClInclude Include="header\Object\gameObject.h" />
     <ClInclude Include="header\Object\player.h" />
+    <ClInclude Include="header\Object\resultBG.h" />
     <ClInclude Include="header\Object\testObject.h" />
+    <ClInclude Include="header\Object\titleBG.h" />
     <ClInclude Include="header\Object\transform2D.h" />
     <ClInclude Include="header\Physics2D\boxCollider2D.h" />
     <ClInclude Include="header\Physics2D\circleCollider2D.h" />
