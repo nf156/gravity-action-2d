@@ -4,17 +4,23 @@
 #include "System/textureManager.h"
 #include "System/input.h"
 #include "Engine/SpriteRenderer.h"
+#include "Object/player.h"
 #include <memory>
 #include <windows.h>
 
 void GameScene::Initialize()
 {
-    if (m_tm) m_tm->Load("game_bg", "texture/game.png");
+    // Add() ‘¤‚ª Initialize() ‚ðŒÄ‚Ô
+    auto player = std::make_shared<Player>(m_tm);
+    m_objectManager.Add(player);
 }
 
-void GameScene::Update(float)
+void GameScene::Update(float dt)
 {
-	if (Input::GetKeyDown('R'))
+    m_objectManager.UpdateAll(dt);
+    m_objectManager.RemoveInactive();
+
+    if (Input::GetKeyDown('R'))
     {
         m_sm->ChangeScene(std::make_unique<ResultScene>(m_sm, m_tm));
     }
@@ -22,10 +28,10 @@ void GameScene::Update(float)
 
 void GameScene::Draw(SpriteRenderer& renderer)
 {
-    if (m_tm) m_tm->Bind(renderer, "game_bg");
-    renderer.Submit(0, 0, 1280, 720, 1.0f, 1.0f, 1.0f, 1.0f, 0, 0, 0.0f);
+    m_objectManager.DrawAll(renderer);
 }
 
 void GameScene::Finalize()
 {
+    m_objectManager.Clear();
 }
