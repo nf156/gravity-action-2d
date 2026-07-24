@@ -11,6 +11,7 @@ Player::Player(TextureManager* tm)
 
 void Player::Initialize()
 {
+	SetLayer(1);
     m_rigidbody.SetPosition({ 640.0f, 520.0f });
     m_rigidbody.SetVelocity({ 0.0f, 0.0f });
     m_rigidbody.SetUseGravity(true);
@@ -51,7 +52,7 @@ void Player::Draw(SpriteRenderer& renderer)
 {
     if (m_tm) m_tm->Bind(renderer, "player");
     Vector2 p = m_rigidbody.GetPosition();
-    renderer.Submit(p.x, p.y, m_w, m_h, 1, 1, 1, 1, 0, 0, 0.2f);
+    renderer.Submit(p.x, p.y, m_w, m_h, 1, 1, 1, 1, 0, 0.0f);
 }
 
 void Player::Finalize()

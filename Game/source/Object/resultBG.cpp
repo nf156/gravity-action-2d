@@ -25,5 +25,5 @@ void ResultBG::Draw(SpriteRenderer& renderer)
 {
     if (m_tm) m_tm->Bind(renderer, "result_bg");
     Vector2 bg = m_rigidbody.GetPosition();
-    renderer.Submit(bg.x, bg.y, m_w, m_h, 1, 1, 1, 1, -1, 0, 0.0f);
+    renderer.Submit(bg.x, bg.y, m_w, m_h, 1, 1, 1, 1, 0, 0.0f);
 }

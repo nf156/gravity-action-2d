@@ -223,12 +223,11 @@ void SpriteRenderer::Begin()
 void SpriteRenderer::Submit(
     float x, float y, float w, float h,
     float r, float g, float b, float a,
-    int layer, int order, float depth)
+     int order, float depth)
 {
     DrawCommand cmd{};
     cmd.x = x; cmd.y = y; cmd.w = w; cmd.h = h;
     cmd.r = r; cmd.g = g; cmd.b = b; cmd.a = a;
-    cmd.layer = layer;
     cmd.order = order;
     cmd.depth = depth;
     cmd.seq = m_submitSeq++;
@@ -244,7 +243,6 @@ void SpriteRenderer::Flush()
     std::stable_sort(m_commands.begin(), m_commands.end(),
         [](const DrawCommand& a, const DrawCommand& b)
         {
-            if (a.layer != b.layer) return a.layer < b.layer;
             if (a.depth != b.depth) return a.depth > b.depth;
             if (a.order != b.order) return a.order < b.order;
             return a.seq < b.seq;

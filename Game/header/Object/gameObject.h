@@ -14,6 +14,9 @@ public:
     bool IsActive() const { return m_active; }
     void SetActive(bool v) { m_active = v; }
 
+    int GetLayer() const { return m_layer; }
+    void SetLayer(int layer) { m_layer = layer; }
+
 protected:
     struct Transform
     {
@@ -22,4 +25,5 @@ protected:
 
 private:
     bool m_active = true;
+    int  m_layer = 0;
 };

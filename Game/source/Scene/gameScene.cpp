@@ -30,6 +30,7 @@ void GameScene::Update(float dt)
 
 void GameScene::Draw(SpriteRenderer& renderer)
 {
+    renderer.Begin(); // フレームで1回
     // 初回だけロード（簡易運用）
     static bool loaded = false;
     if (!loaded && m_tm)
@@ -40,7 +41,7 @@ void GameScene::Draw(SpriteRenderer& renderer)
     }
 
     m_objectManager.DrawAll(renderer);
-    renderer.Flush(); // フレームで1回
+    renderer.End(); // フレームで1回
 }
 
 void GameScene::Finalize()

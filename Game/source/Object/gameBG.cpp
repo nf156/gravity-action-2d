@@ -9,6 +9,7 @@ GameBG::GameBG(TextureManager* tm)
 
 void GameBG::Initialize()
 {
+	SetLayer(-10); // ”wŒi‚ÍÅ‚àŒã‚ë‚É•`‰æ‚³‚ê‚é‚æ‚¤‚ÉƒŒƒCƒ„[‚ğİ’è
     m_rigidbody.SetPosition({ 0.0f, 0.0f });
 }
 
@@ -25,5 +26,5 @@ void GameBG::Draw(SpriteRenderer& renderer)
 {
     if (m_tm) m_tm->Bind(renderer, "game_bg");
     Vector2 bg = m_rigidbody.GetPosition();
-    renderer.Submit(bg.x, bg.y, m_w, m_h, 1, 1, 1, 1, -1, 0, 0.0f);
+    renderer.Submit(bg.x, bg.y, m_w, m_h, 1, 1, 1, 1, 0, 0.0f);
 }
