@@ -50,7 +50,7 @@ void TestObject::Draw(SpriteRenderer& renderer)
     renderer.Submit(
         c.x - he.x, c.y - he.y,
         he.x * 2.0f, he.y * 2.0f,
-        1.0f, 0.9f, 0.3f, 1.0f,
+        1.0f, 0.9f, 0.3f,
         1, 0, 0.0f
     );
 }

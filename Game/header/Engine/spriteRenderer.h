@@ -23,7 +23,7 @@ public:
     void Submit(
         float x, float y, float w, float h,
         float r, float g, float b, float a,
-        int layer, int order, float depth);
+        int order, float depth);
 
     void Flush();
     void End();
@@ -47,7 +47,6 @@ private:
     {
         float x, y, w, h;
         float r, g, b, a;
-        int layer;
         int order;
         float depth;
         uint64_t seq;

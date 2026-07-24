@@ -62,12 +62,25 @@ public:
     // 変更: rendererを受け取る
     void DrawAll(SpriteRenderer& renderer)
     {
+        std::vector<std::shared_ptr<GameObject>> drawList;
+        drawList.reserve(m_objects.size());
+
         for (auto& obj : m_objects)
         {
             if (!obj || !obj->IsActive()) continue;
-            obj->Draw(renderer); // Draw引数あり版
-			renderer.Flush(); // 追加: 描画コマンドをフラッシュ
+            drawList.push_back(obj);
         }
+
+        std::stable_sort(drawList.begin(), drawList.end(),
+            [](const std::shared_ptr<GameObject>& a, const std::shared_ptr<GameObject>& b)
+            {
+                return a->GetLayer() < b->GetLayer();
+            });
+
+        for (auto& obj : drawList)
+            obj->Draw(renderer);
+
+        renderer.Flush(); // ← ここだけ
     }
 
     void RemoveInactive()
