@@ -2,24 +2,30 @@
 #include <d3d11.h>
 #include <wrl/client.h>
 #include <vector>
+#include <cstdint>
 
 class SpriteRenderer
 {
 public:
     bool Initialize(ID3D11Device* device, ID3D11DeviceContext* context);
+
+    // 旧互換: 直接ロードして現在テクスチャに設定
     bool LoadTexture(const wchar_t* path);
+
+    // 新規: SRV作成だけ行う（TextureManager用）
+    bool CreateTextureSRV(const wchar_t* path, ID3D11ShaderResourceView** outSrv);
+
+    // 新規: 現在テクスチャを設定（TextureManager::Bind用）
+    void SetTexture(ID3D11ShaderResourceView* srv);
+
     void Begin();
 
-    // 追加: 直接Drawの代わりにキューへ積む
-    // Submit の引数に depth 追加
     void Submit(
         float x, float y, float w, float h,
         float r, float g, float b, float a,
         int layer, int order, float depth);
 
-    // 追加: sortして実描画
     void Flush();
-
     void End();
     void Finalize();
 
@@ -43,13 +49,14 @@ private:
         float r, g, b, a;
         int layer;
         int order;
-        float depth;   // 追加: 小さいほど手前 / 大きいほど奥
+        float depth;
         uint64_t seq;
+        ID3D11ShaderResourceView* srv = nullptr; // コマンドごとのテクスチャ
     };
 
-    void DrawInternal(const DrawCommand& cmd);
     bool CreateShaders();
     bool CreateBuffers();
+    void DrawInternal(const DrawCommand& cmd);
 
 private:
     ID3D11Device* m_device = nullptr;
@@ -60,12 +67,12 @@ private:
     Microsoft::WRL::ComPtr<ID3D11InputLayout>  m_inputLayout;
     Microsoft::WRL::ComPtr<ID3D11Buffer>       m_vb;
     Microsoft::WRL::ComPtr<ID3D11Buffer>       m_cb;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv; // 現在テクスチャ
     Microsoft::WRL::ComPtr<ID3D11SamplerState>       m_sampler;
 
     float m_screenW = 1280.0f;
     float m_screenH = 720.0f;
 
-    std::vector<DrawCommand> m_commands; // 追加
-    uint64_t m_submitSeq = 0;             // 追加
+    std::vector<DrawCommand> m_commands;
+    uint64_t m_submitSeq = 0;
 };

@@ -66,6 +66,7 @@ public:
         {
             if (!obj || !obj->IsActive()) continue;
             obj->Draw(renderer); // Draw引数あり版
+			renderer.Flush(); // 追加: 描画コマンドをフラッシュ
         }
     }
 

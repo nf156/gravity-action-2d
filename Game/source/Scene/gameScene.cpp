@@ -5,14 +5,15 @@
 #include "System/input.h"
 #include "Engine/SpriteRenderer.h"
 #include "Object/player.h"
+#include "Object/gameBG.h"
 #include <memory>
 #include <windows.h>
 
 void GameScene::Initialize()
 {
-    if (m_tm) m_tm->Load("game_bg", "texture/game.png");
-
-    // これがやりたい形
+    // 注意: ここではrenderer参照がないのでテクスチャLoadはしない
+    // （起動時などrendererがあるタイミングで事前Loadするか、Scene API拡張が必要）
+    m_objectManager.AddGameObject<GameBG>(m_tm);
     m_objectManager.AddGameObject<Player>(m_tm);
 }
 
@@ -29,9 +30,17 @@ void GameScene::Update(float dt)
 
 void GameScene::Draw(SpriteRenderer& renderer)
 {
-   
+    // 初回だけロード（簡易運用）
+    static bool loaded = false;
+    if (!loaded && m_tm)
+    {
+        m_tm->Load(renderer, "game_bg", "texture/game.png");
+        m_tm->Load(renderer, "player", "texture/white.png");
+        loaded = true;
+    }
 
     m_objectManager.DrawAll(renderer);
+    renderer.Flush(); // フレームで1回
 }
 
 void GameScene::Finalize()

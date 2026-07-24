@@ -142,7 +142,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         if (dt > 0.25f) dt = 0.25f;
 
         sceneManager.Update(dt);
-
+        
         float clear[4] = { 0.08f, 0.09f, 0.12f, 1.0f };
         context->OMSetRenderTargets(1, rtv.GetAddressOf(), nullptr);
         context->ClearRenderTargetView(rtv.Get(), clear);
