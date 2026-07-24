@@ -25,3 +25,7 @@ void ResultScene::Draw(SpriteRenderer& renderer)
     if (m_tm) m_tm->Bind(renderer, "result_bg");
     renderer.Submit(0, 0, 1280, 720, 1.0f, 1.0f, 1.0f, 1.0f, 0, 0, 0.0f);
 }
+
+void ResultScene::Finalize()
+{
+}

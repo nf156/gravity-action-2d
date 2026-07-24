@@ -13,6 +13,7 @@ public:
     void Initialize() override;
     void Update(float dt) override;
     void Draw(SpriteRenderer& renderer) override;
+    void Finalize() override;
 
 private:
     SceneManager* m_sm = nullptr;
