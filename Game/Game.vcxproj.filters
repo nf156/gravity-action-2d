@@ -40,6 +40,18 @@
     <ClCompile Include="source\Physics2D\physicsWorld2D.cpp">
       <Filter>ソース ファイル\Physics2D</Filter>
     </ClCompile>
+    <ClCompile Include="source\Scene\titleScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scene\gameScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scene\resultScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\System\textureManager.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\System\debugLog.h">
@@ -114,6 +126,24 @@
     <ClInclude Include="header\Physics2D\physicsWorld2D.h">
       <Filter>ヘッダー ファイル\Physics2D</Filter>
     </ClInclude>
+    <ClInclude Include="header\Scene\scene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Scene\sceneManager.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Scene\titleScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Scene\gameScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Scene\resultScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="header\System\textureManager.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ヘッダー ファイル">
@@ -160,6 +190,12 @@
     </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{50958aba-6f9f-45fe-a1f3-0d66ebdb9df9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{b143a5f0-7858-4b80-a15b-d8934bfda1a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene">
+      <UniqueIdentifier>{579c62fc-d160-4371-a1ad-f6af0b7fb366}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
