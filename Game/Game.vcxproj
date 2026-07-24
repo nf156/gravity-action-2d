@@ -136,11 +136,15 @@
     <ClCompile Include="source\Object\testObject.cpp" />
     <ClCompile Include="source\Physics2D\collisionManager.cpp" />
     <ClCompile Include="source\Physics2D\physicsWorld2D.cpp" />
+    <ClCompile Include="source\Scene\gameScene.cpp" />
+    <ClCompile Include="source\Scene\resultScene.cpp" />
+    <ClCompile Include="source\Scene\titleScene.cpp" />
     <ClCompile Include="source\System\config.cpp" />
     <ClCompile Include="source\System\assetPath.cpp" />
     <ClCompile Include="source\System\debugLog.cpp" />
     <ClCompile Include="source\System\fileSystem.cpp" />
     <ClCompile Include="source\System\input.cpp" />
+    <ClCompile Include="source\System\textureManager.cpp" />
     <ClCompile Include="source\System\time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,11 +166,17 @@
     <ClInclude Include="header\Physics2D\collisionManifold.h" />
     <ClInclude Include="header\Physics2D\physicsWorld2D.h" />
     <ClInclude Include="header\Physics2D\rigidbody2D.h" />
+    <ClInclude Include="header\Scene\gameScene.h" />
+    <ClInclude Include="header\Scene\resultScene.h" />
+    <ClInclude Include="header\Scene\scene.h" />
+    <ClInclude Include="header\Scene\sceneManager.h" />
+    <ClInclude Include="header\Scene\titleScene.h" />
     <ClInclude Include="header\System\config.h" />
     <ClInclude Include="header\System\assetPath.h" />
     <ClInclude Include="header\System\debugLog.h" />
     <ClInclude Include="header\System\fileSystem.h" />
     <ClInclude Include="header\System\input.h" />
+    <ClInclude Include="header\System\textureManager.h" />
     <ClInclude Include="header\System\time.h" />
   </ItemGroup>
   <ItemGroup>
