@@ -133,6 +133,7 @@
     <ClCompile Include="source\Engine\dxRenderer.cpp" />
     <ClCompile Include="source\Engine\spriteRenderer.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Object\player.cpp" />
     <ClCompile Include="source\Object\testObject.cpp" />
     <ClCompile Include="source\Physics2D\collisionManager.cpp" />
     <ClCompile Include="source\Physics2D\physicsWorld2D.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="header\Object\component.h" />
     <ClInclude Include="header\Object\objectManager.h" />
     <ClInclude Include="header\Object\gameObject.h" />
+    <ClInclude Include="header\Object\player.h" />
     <ClInclude Include="header\Object\testObject.h" />
     <ClInclude Include="header\Object\transform2D.h" />
     <ClInclude Include="header\Physics2D\boxCollider2D.h" />

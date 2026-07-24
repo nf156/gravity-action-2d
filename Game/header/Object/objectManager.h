@@ -21,7 +21,7 @@ public:
         {
             if (!obj || !obj->IsActive()) continue;
             obj->Update(dt);
-        }
+    }
     }
 
     // •ÏX: renderer‚ğó‚¯æ‚é
@@ -31,7 +31,7 @@ public:
         {
             if (!obj || !obj->IsActive()) continue;
             obj->Draw(renderer); // Drawˆø”‚ ‚è”Å
-        }
+    }
     }
 
     void RemoveInactive()
