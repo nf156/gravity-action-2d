@@ -9,7 +9,6 @@
 
 void ResultScene::Initialize()
 {
-    if (m_tm) m_tm->Load("result_bg", "texture/result.png");
 }
 
 void ResultScene::Update(float)

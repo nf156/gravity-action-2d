@@ -9,7 +9,6 @@
 
 void TitleScene::Initialize()
 {
-    if (m_tm) m_tm->Load("title_bg", "texture/title.png");
 }
 
 void TitleScene::Update(float)
