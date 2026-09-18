@@ -6,6 +6,7 @@
 #include "Engine/SpriteRenderer.h"
 #include "Object/player.h"
 #include "Object/gameBG.h"
+#include "Object/enemy.h"
 #include <memory>
 #include <windows.h>
 
@@ -15,6 +16,7 @@ void GameScene::Initialize()
     // （起動時などrendererがあるタイミングで事前Loadするか、Scene API拡張が必要）
     m_objectManager.AddGameObject<GameBG>(m_tm);
     m_objectManager.AddGameObject<Player>(m_tm);
+	m_objectManager.AddGameObject<Enemy>(m_tm);
 }
 
 void GameScene::Update(float dt)
@@ -37,6 +39,7 @@ void GameScene::Draw(SpriteRenderer& renderer)
     {
         m_tm->Load(renderer, "game_bg", "texture/game.png");
         m_tm->Load(renderer, "player", "texture/white.png");
+		m_tm->Load(renderer, "enemy", "texture/red.png");
         loaded = true;
     }
 
