@@ -35,7 +35,6 @@ void ResultScene::Draw(SpriteRenderer& renderer)
     }
 
     m_objectManager.DrawAll(renderer);
-    renderer.Flush(); // ƒtƒŒ[ƒ€‚Å1‰ñ
 }
 
 void ResultScene::Finalize()
